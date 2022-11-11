@@ -1,0 +1,56 @@
+input1 = input("Enter the input: ")
+
+operators = []
+operators1 = []
+operands = []
+
+for char in range(len(input1)):
+    if(char % 2 == 0 and char != 0):
+        operands.append(input1[char])
+    else:
+        if(char != 1 and char != 0):
+            operators.append(input1[char])
+
+w,h = 4, len(operators)+2
+print(w,h)
+table = [[0 for x in range(w)] for y in range(h)]
+
+table[0][0] = "OP"
+table[0][1] = "OP1"
+table[0][2] = "OP2"
+table[0][3] = "Result"
+
+for operat in range(len(operators)):
+    if(operat != len(operators)-1):
+        if ((operators[operat] == "+" or operators[operat] == "-") and (operators[operat+1] == "*" or operators[operat+1] == "/")):
+            temp = operators[operat+1]
+            operators[operat+1] = operators[operat]
+            operators[operat] = temp
+
+for operat in range(len(operators)):
+    table[operat+1][0] = operators[operat]
+
+
+table[len(operators)+1][0] = "="
+
+last_temp = "t0"
+
+for operat in range(len(operators)):
+    for x in range(len(input1)):
+        if(input1[x] == operators[operat]):
+                table[operat+1][1] = input1[x-1]
+                if(operat+1 == 1):
+                    table[operat+1][2] = input1[x+1]
+                    last_temp = "t"+str(operat+1)
+                    table[operat+1][3] = last_temp
+                else:
+                    table[operat+1][2] = last_temp
+                    last_temp = "t"+str(operat+1)
+                    table[operat+1][3] = last_temp
+
+table[len(operators)+1][1] = input1[0]
+table[len(operators)+1][2] = last_temp
+
+for x in table:
+    print(x)
+#a=b+c*d
